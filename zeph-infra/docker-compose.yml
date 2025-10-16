@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  zeph-infra-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: zeph-infra-api
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      # Docker-Out-of-Docker configuration
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      # Windows-specific Docker Desktop settings
+      - COMPOSE_CONVERT_WINDOWS_PATHS=1
+      - COMPOSE_FORCE_WINDOWS_HOST=1
+    volumes:
+      # Mount Docker socket to access host Docker daemon
+      # For Windows Docker Desktop, use the named pipe path
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      # Alternative Windows path (uncomment if needed):
+      # - //var/run/docker.sock:/var/run/docker.sock:ro
+      # Mount repos directory for persistent storage
+      - ./repos:/app/repos
+    # User permissions will be handled dynamically by the startup script
+    # Container starts as root to set up Docker permissions, then switches to nodejs user
+    privileged: false
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - zeph-network
+
+  # Optional: Add a reverse proxy (nginx) for production
+  nginx:
+    image: nginx:alpine
+    container_name: zeph-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - zeph-infra-api
+    restart: unless-stopped
+    networks:
+      - zeph-network
+    profiles:
+      - production
+
+networks:
+  zeph-network:
+    driver: bridge
+
+volumes:
+  nginx-logs:
+    driver: local
