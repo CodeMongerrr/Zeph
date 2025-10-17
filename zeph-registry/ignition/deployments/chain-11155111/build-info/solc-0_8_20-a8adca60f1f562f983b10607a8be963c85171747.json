@@ -1,0 +1,53 @@
+{
+  "_format": "hh3-sol-build-info-1",
+  "id": "solc-0_8_20-a8adca60f1f562f983b10607a8be963c85171747",
+  "solcVersion": "0.8.20",
+  "solcLongVersion": "0.8.20+commit.a1b79de6",
+  "userSourceNameMap": {
+    "contracts/OpsFactory.sol": "project/contracts/OpsFactory.sol"
+  },
+  "input": {
+    "language": "Solidity",
+    "settings": {
+      "evmVersion": "shanghai",
+      "optimizer": {
+        "enabled": true,
+        "runs": 200
+      },
+      "outputSelection": {
+        "*": {
+          "": [
+            "ast"
+          ],
+          "*": [
+            "abi",
+            "evm.bytecode",
+            "evm.deployedBytecode",
+            "evm.methodIdentifiers",
+            "metadata"
+          ]
+        }
+      },
+      "remappings": [
+        "project/:@openzeppelin/contracts/=npm/@openzeppelin/contracts@5.4.0/"
+      ]
+    },
+    "sources": {
+      "npm/@openzeppelin/contracts@5.4.0/access/Ownable.sol": {
+        "content": "// SPDX-License-Identifier: MIT\n// OpenZeppelin Contracts (last updated v5.0.0) (access/Ownable.sol)\n\npragma solidity ^0.8.20;\n\nimport {Context} from \"../utils/Context.sol\";\n\n/**\n * @dev Contract module which provides a basic access control mechanism, where\n * there is an account (an owner) that can be granted exclusive access to\n * specific functions.\n *\n * The initial owner is set to the address provided by the deployer. This can\n * later be changed with {transferOwnership}.\n *\n * This module is used through inheritance. It will make available the modifier\n * `onlyOwner`, which can be applied to your functions to restrict their use to\n * the owner.\n */\nabstract contract Ownable is Context {\n    address private _owner;\n\n    /**\n     * @dev The caller account is not authorized to perform an operation.\n     */\n    error OwnableUnauthorizedAccount(address account);\n\n    /**\n     * @dev The owner is not a valid owner account. (eg. `address(0)`)\n     */\n    error OwnableInvalidOwner(address owner);\n\n    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);\n\n    /**\n     * @dev Initializes the contract setting the address provided by the deployer as the initial owner.\n     */\n    constructor(address initialOwner) {\n        if (initialOwner == address(0)) {\n            revert OwnableInvalidOwner(address(0));\n        }\n        _transferOwnership(initialOwner);\n    }\n\n    /**\n     * @dev Throws if called by any account other than the owner.\n     */\n    modifier onlyOwner() {\n        _checkOwner();\n        _;\n    }\n\n    /**\n     * @dev Returns the address of the current owner.\n     */\n    function owner() public view virtual returns (address) {\n        return _owner;\n    }\n\n    /**\n     * @dev Throws if the sender is not the owner.\n     */\n    function _checkOwner() internal view virtual {\n        if (owner() != _msgSender()) {\n            revert OwnableUnauthorizedAccount(_msgSender());\n        }\n    }\n\n    /**\n     * @dev Leaves the contract without owner. It will not be possible to call\n     * `onlyOwner` functions. Can only be called by the current owner.\n     *\n     * NOTE: Renouncing ownership will leave the contract without an owner,\n     * thereby disabling any functionality that is only available to the owner.\n     */\n    function renounceOwnership() public virtual onlyOwner {\n        _transferOwnership(address(0));\n    }\n\n    /**\n     * @dev Transfers ownership of the contract to a new account (`newOwner`).\n     * Can only be called by the current owner.\n     */\n    function transferOwnership(address newOwner) public virtual onlyOwner {\n        if (newOwner == address(0)) {\n            revert OwnableInvalidOwner(address(0));\n        }\n        _transferOwnership(newOwner);\n    }\n\n    /**\n     * @dev Transfers ownership of the contract to a new account (`newOwner`).\n     * Internal function without access restriction.\n     */\n    function _transferOwnership(address newOwner) internal virtual {\n        address oldOwner = _owner;\n        _owner = newOwner;\n        emit OwnershipTransferred(oldOwner, newOwner);\n    }\n}\n"
+      },
+      "npm/@openzeppelin/contracts@5.4.0/utils/Context.sol": {
+        "content": "// SPDX-License-Identifier: MIT\n// OpenZeppelin Contracts (last updated v5.0.1) (utils/Context.sol)\n\npragma solidity ^0.8.20;\n\n/**\n * @dev Provides information about the current execution context, including the\n * sender of the transaction and its data. While these are generally available\n * via msg.sender and msg.data, they should not be accessed in such a direct\n * manner, since when dealing with meta-transactions the account sending and\n * paying for execution may not be the actual sender (as far as an application\n * is concerned).\n *\n * This contract is only required for intermediate, library-like contracts.\n */\nabstract contract Context {\n    function _msgSender() internal view virtual returns (address) {\n        return msg.sender;\n    }\n\n    function _msgData() internal view virtual returns (bytes calldata) {\n        return msg.data;\n    }\n\n    function _contextSuffixLength() internal view virtual returns (uint256) {\n        return 0;\n    }\n}\n"
+      },
+      "project/contracts/DomainOps.sol": {
+        "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.20;\n\nimport \"@openzeppelin/contracts/access/Ownable.sol\";\nimport \"./ISmartOps.sol\";\n\ncontract DomainOps is ISmartOps, Ownable {\n    bool private paused;\n    bytes32 private currentVersion;\n    string private currentURI;\n\n    mapping(address => bytes32) private roles;\n\n    constructor(address owner_) Ownable(owner_) {}\n\n    /*//////////////////////////////////////////////////////////////\n                             LIFECYCLE\n    //////////////////////////////////////////////////////////////*/\n    function deploySite(bytes32 versionHash, string calldata uri) external onlyOwner {\n        currentVersion = versionHash;\n        currentURI = uri;\n        paused = false;\n        emit SiteDeployed(versionHash, uri, msg.sender);\n    }\n\n    function pauseSite() external onlyOwner {\n        paused = true;\n        emit SitePaused(msg.sender);\n    }\n\n    function resumeSite() external onlyOwner {\n        paused = false;\n        emit SiteResumed(msg.sender);\n    }\n\n    /*//////////////////////////////////////////////////////////////\n                             ACCESS CONTROL\n    //////////////////////////////////////////////////////////////*/\n    function grantAccess(address user, bytes32 role) external onlyOwner {\n        roles[user] = role;\n        emit AccessGranted(user, role);\n    }\n\n    function revokeAccess(address user) external onlyOwner {\n        delete roles[user];\n        emit AccessRevoked(user);\n    }\n\n    function hasAccess(address user, bytes32 role) external view returns (bool) {\n        return roles[user] == role;\n    }\n\n    /*//////////////////////////////////////////////////////////////\n                                CONFIG\n    //////////////////////////////////////////////////////////////*/\n    function updateConfig(string calldata key, string calldata value) external onlyOwner {\n        emit ConfigUpdated(key, value);\n    }\n\n    /*//////////////////////////////////////////////////////////////\n                                AUDIT\n    //////////////////////////////////////////////////////////////*/\n    function getCurrentVersion() external view returns (bytes32, string memory) {\n        return (currentVersion, currentURI);\n    }\n\n    function getStatus() external view returns (bool) {\n        return paused;\n    }\n\n    function logAction(string calldata action, string calldata meta) external onlyOwner {\n        emit ActionLogged(action, meta);\n    }\n}"
+      },
+      "project/contracts/ISmartOps.sol": {
+        "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.20;\n\n/// @title ISmartOps - Minimal DevOps-as-a-Blockchain interface\n/// @notice Core on-chain operations for website lifecycle & access control\n\ninterface ISmartOps {\n    /*//////////////////////////////////////////////////////////////\n                              EVENTS\n    //////////////////////////////////////////////////////////////*/\n    event SiteDeployed(bytes32 indexed versionHash, string uri, address indexed deployer);\n    event SitePaused(address indexed by);\n    event SiteResumed(address indexed by);\n    event AccessGranted(address indexed user, bytes32 role);\n    event AccessRevoked(address indexed user);\n    event ConfigUpdated(string key, string value);\n    event ActionLogged(string action, string meta);\n\n    /*//////////////////////////////////////////////////////////////\n                              LIFECYCLE\n    //////////////////////////////////////////////////////////////*/\n    function deploySite(bytes32 versionHash, string calldata uri) external;\n    function pauseSite() external;\n    function resumeSite() external;\n\n    /*//////////////////////////////////////////////////////////////\n                             ACCESS CONTROL\n    //////////////////////////////////////////////////////////////*/\n    function grantAccess(address user, bytes32 role) external;\n    function revokeAccess(address user) external;\n    function hasAccess(address user, bytes32 role) external view returns (bool);\n\n    /*//////////////////////////////////////////////////////////////\n                                CONFIG\n    //////////////////////////////////////////////////////////////*/\n    function updateConfig(string calldata key, string calldata value) external;\n\n    /*//////////////////////////////////////////////////////////////\n                                AUDIT\n    //////////////////////////////////////////////////////////////*/\n    function getCurrentVersion() external view returns (bytes32 versionHash, string memory uri);\n    function getStatus() external view returns (bool isPaused);\n    function logAction(string calldata action, string calldata meta) external;\n}"
+      },
+      "project/contracts/OpsFactory.sol": {
+        "content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.20;\n\nimport \"./DomainOps.sol\";\n\nlibrary OpsFactory {\n    function deployOps(address owner) external returns (address) {\n        DomainOps ops = new DomainOps(owner);\n        return address(ops);\n    }\n}"
+      }
+    }
+  }
+}

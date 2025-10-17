@@ -1,0 +1,7 @@
+{
+  "DomainSystem#DomainOps": "0x791e79a2408d53E8aF1dDbf9D00Ce3D3e483b48c",
+  "DomainSystem#DomainToken": "0x003B5cf81e2Ad0cB7Afb1be4308A30290B306292",
+  "DomainSystem#OpsFactory": "0x57121fa2e821Fc874077579eFD00b0b93Bd281a3",
+  "DomainSystem#TokenFactory": "0x367D5CC705217D69BddfD694cf168057C033A66a",
+  "DomainSystem#DomainFactory": "0x6bBCdad33555CbC9066FE7172d57e2839d6c9032"
+}

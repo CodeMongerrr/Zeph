@@ -1,42 +1,23 @@
-import type { HardhatUserConfig } from "hardhat/config";
-
-import hardhatToolboxViemPlugin from "@nomicfoundation/hardhat-toolbox-viem";
 import { configVariable } from "hardhat/config";
+import hardhatToolboxViem from "@nomicfoundation/hardhat-toolbox-viem";
+import hardhatViem from "@nomicfoundation/hardhat-viem";
 
-const config: HardhatUserConfig = {
-  plugins: [hardhatToolboxViemPlugin],
-  solidity: {
-    profiles: {
-      default: {
-        version: "0.8.28",
-      },
-      production: {
-        version: "0.8.28",
-        settings: {
-          optimizer: {
-            enabled: true,
-            runs: 200,
-          },
-        },
-      },
-    },
-  },
+export default {
+  solidity: "0.8.20",
+  plugins: [hardhatToolboxViem, hardhatViem],
   networks: {
-    hardhatMainnet: {
-      type: "edr-simulated",
-      chainType: "l1",
-    },
-    hardhatOp: {
-      type: "edr-simulated",
-      chainType: "op",
-    },
     sepolia: {
       type: "http",
       chainType: "l1",
-      url: configVariable("SEPOLIA_RPC_URL"),
-      accounts: [configVariable("SEPOLIA_PRIVATE_KEY")],
+      url: "https://sepolia.infura.io/v3/19f8fd6dddaf4a52b9252e4bcebd24c8",
+      accounts: ["68a51639a71f5bebbe0495c12bd82b0193df98dc25da51dbc95230e793eff58f"],
     },
   },
+  settings: {
+    optimizer: {
+      enabled: true,
+      runs: 200,
+      viaIR: true
+    }
+  }
 };
-
-export default config;
