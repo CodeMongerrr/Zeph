@@ -1,0 +1,80 @@
+[
+  {
+    "domainId": 1,
+    "name": "domama.eth",
+    "owner": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb",
+    "price": "0.05 ETH",
+    "status": "Available",
+    "tokenContract": "0xabc1234567890def",
+    "opsContract": "0xdef0987654321abc",
+    "version": 3,
+    "paused": false,
+    "landingHash": "ipfs://QmHash123Landing",
+    "privateHash": "ipfs://QmHash456Private"
+  },
+  {
+    "domainId": 2,
+    "name": "zephyr.eth",
+    "owner": "0x0000000000000000000000000000000000000000",
+    "price": "0.08 ETH",
+    "status": "Available",
+    "tokenContract": "0xabc1234567890def",
+    "opsContract": "0xdef0987654321abc",
+    "version": 1,
+    "paused": false,
+    "landingHash": "",
+    "privateHash": ""
+  },
+  {
+    "domainId": 3,
+    "name": "devops.eth",
+    "owner": "0x8ba1f109551bD432803012645Ac136ddd64DBA72",
+    "price": "0.12 ETH",
+    "status": "Owned",
+    "tokenContract": "0xabc1234567890def",
+    "opsContract": "0xdef0987654321abc",
+    "version": 5,
+    "paused": false,
+    "landingHash": "ipfs://QmHashDevOpsLanding",
+    "privateHash": "ipfs://QmHashDevOpsPrivate"
+  },
+  {
+    "domainId": 4,
+    "name": "blockchain.eth",
+    "owner": "0x0000000000000000000000000000000000000000",
+    "price": "0.15 ETH",
+    "status": "Available",
+    "tokenContract": "0xabc1234567890def",
+    "opsContract": "0xdef0987654321abc",
+    "version": 1,
+    "paused": false,
+    "landingHash": "",
+    "privateHash": ""
+  },
+  {
+    "domainId": 5,
+    "name": "smartcontract.eth",
+    "owner": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb",
+    "price": "0.10 ETH",
+    "status": "Owned",
+    "tokenContract": "0xabc1234567890def",
+    "opsContract": "0xdef0987654321abc",
+    "version": 2,
+    "paused": true,
+    "landingHash": "ipfs://QmHashSmartContractLanding",
+    "privateHash": "ipfs://QmHashSmartContractPrivate"
+  },
+  {
+    "domainId": 6,
+    "name": "web3.eth",
+    "owner": "0x0000000000000000000000000000000000000000",
+    "price": "0.20 ETH",
+    "status": "Available",
+    "tokenContract": "0xabc1234567890def",
+    "opsContract": "0xdef0987654321abc",
+    "version": 1,
+    "paused": false,
+    "landingHash": "",
+    "privateHash": ""
+  }
+]

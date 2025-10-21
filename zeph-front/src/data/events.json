@@ -1,0 +1,94 @@
+[
+  {
+    "domainId": 1,
+    "events": [
+      {
+        "event": "SiteDeployed",
+        "by": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb",
+        "version": 3,
+        "timestamp": "1726000000",
+        "details": "Deployed new version with updated landing page"
+      },
+      {
+        "event": "ConfigUpdated",
+        "by": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb",
+        "version": 3,
+        "timestamp": "1725900000",
+        "details": "Updated SSL configuration"
+      },
+      {
+        "event": "SiteDeployed",
+        "by": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb",
+        "version": 2,
+        "timestamp": "1725800000",
+        "details": "Initial deployment"
+      }
+    ]
+  },
+  {
+    "domainId": 3,
+    "events": [
+      {
+        "event": "SiteDeployed",
+        "by": "0x8ba1f109551bD432803012645Ac136ddd64DBA72",
+        "version": 5,
+        "timestamp": "1726100000",
+        "details": "Major version upgrade"
+      },
+      {
+        "event": "Resumed",
+        "by": "0x8ba1f109551bD432803012645Ac136ddd64DBA72",
+        "version": 4,
+        "timestamp": "1726000000",
+        "details": "Site resumed after maintenance"
+      },
+      {
+        "event": "Paused",
+        "by": "0x8ba1f109551bD432803012645Ac136ddd64DBA72",
+        "version": 4,
+        "timestamp": "1725950000",
+        "details": "Paused for scheduled maintenance"
+      },
+      {
+        "event": "AccessGranted",
+        "by": "0x8ba1f109551bD432803012645Ac136ddd64DBA72",
+        "version": 4,
+        "timestamp": "1725900000",
+        "details": "Granted access to 0x123...abc"
+      },
+      {
+        "event": "SiteDeployed",
+        "by": "0x8ba1f109551bD432803012645Ac136ddd64DBA72",
+        "version": 4,
+        "timestamp": "1725800000",
+        "details": "Deployed with new features"
+      }
+    ]
+  },
+  {
+    "domainId": 5,
+    "events": [
+      {
+        "event": "Paused",
+        "by": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb",
+        "version": 2,
+        "timestamp": "1726050000",
+        "details": "Paused for security audit"
+      },
+      {
+        "event": "SiteDeployed",
+        "by": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb",
+        "version": 2,
+        "timestamp": "1725950000",
+        "details": "Deployed v2 with smart contract updates"
+      },
+      {
+        "event": "SiteDeployed",
+        "by": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb",
+        "version": 1,
+        "timestamp": "1725700000",
+        "details": "Initial deployment"
+      }
+    ]
+  }
+]
