@@ -27,7 +27,7 @@ export const DomainCard = ({ domain, onBuy, currentUser }: DomainCardProps) => {
 
   const handleCardClick = () => {
     if (isCurrentUserOwner) {
-      navigate(`/domain/${domain.domainId}`);
+      navigate(`/dashboard/${domain.domainId}`);
     }
   };
 
